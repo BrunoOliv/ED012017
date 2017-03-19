@@ -8,10 +8,10 @@ int lerTam () {
         printf("Informe o tamanho do vetor (<= 20): ");
         scanf("%d", &tamV);
 
-        if (tamV > 20) {
-        printf("Erro! Tamanho acima do permitido.");
+        if (tamV <= 0 || tamV > 20) {
+        printf("Erro! Tamanho acima do permitido.\n");
         }
-    }while (tamV <= 0 && tamV > 20);
+    }while (tamV <= 0 || tamV > 20);
     return tamV;
 }
 
