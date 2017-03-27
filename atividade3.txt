@@ -1,0 +1,12 @@
+funProc (int vet [], int tamanho, int num)
+
+Inicio
+    para i de 1 ate tam faça
+	se vet[i] == num então
+	escreva ("Indice: ", i)
+	retornar i;
+	fimse
+    fimpara
+		escreva("Nao encontrado!");
+		retornar -1;
+Fim
