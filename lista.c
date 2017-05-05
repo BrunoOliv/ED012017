@@ -15,7 +15,7 @@ struct listano {
 
 Lista* criaLista () {
     Lista* l = (Lista*) malloc(sizeof(Lista));
-    l->prim == NULL;
+    l->prim = NULL;
     return l;
 }
 
