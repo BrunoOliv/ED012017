@@ -37,7 +37,6 @@ void liberaAgenda(Lista *l){
         }
     free(l);
     }
-
 }
 
 //opção 1 do menu()
@@ -79,7 +78,7 @@ void busImp (Lista* l) {
 
     ListaNo* p = l->prim;
     do {
-        ret = strncmp(p->nome, nome, 7);
+        ret = strcmp(p->nome, nome);
         if(ret == 0){
             printf("\n\nNOME(s)                         EMAIL(s)                        TELEFONE(s)\n\n");
             printf("%s                  %s                  %s\n", p->nome, p->email, p->telefone);
@@ -92,65 +91,108 @@ void busImp (Lista* l) {
         printf("\n\nNome nao encontrado!\n\n");
 }
 
+//função verifica char: sim ou não - usada por editCont()
+void verif (char *editar) {
+    while(*editar != 'S' && *editar != 's' && *editar != 'N' && *editar != 'n'){
+            printf("\n\nErro! Digite S para sim ou N para nao: ");
+            scanf("%c", editar);
+            getchar();
+        }
+}
+
+//função para editar contato(nome, email e telefone) - usada por editRemov()
+void editCont (ListaNo* p) {
+    char editar = NULL;
+
+//edNome-------------------------------------------------------------------
+        printf("\nEditar o nome (S/N): ");
+        scanf("%c", &editar);
+        getchar();
+
+        verif(&editar);
+
+        if(editar == 'S' || editar == 's') {
+        printf("\nInforme o nome novo: ");
+        scanf("%[^\n]", p->nome);
+        getchar();
+        }
+//edEmail---------------------------------------------------------------------
+        printf("\nEditar o email (S/N): ");
+        scanf("%c", &editar);
+        getchar();
+
+        verif(&editar);
+
+        if(editar == 'S' || editar == 's') {
+        printf("\nInforme o email novo: ");
+        scanf("%[^\n]", p->email);
+        getchar();
+        }
+//edTel---------------------------------------------------------------------
+        printf("\nEditar o telefone (S/N): ");
+        scanf("%c", &editar);
+        getchar();
+
+        verif(&editar);
+
+        if(editar == 'S' || editar == 's') {
+        printf("\nInforme o telefone novo: ");
+        scanf("%[^\n]", p->telefone);
+        getchar();
+        }
+}
+
 //opção 4 do menu()
 void editRemov (Lista* l){
     int opc;
-    printf("Informe 1 p/ editar ou 2 p/ excluir um contato: ");
+    char nome[40];
+    ListaNo* p;
+
+    printf("\nInforme 1 p/ editar ou 2 p/ excluir um contato: ");
     scanf("%d", &opc);
 
-    ListaNo* p = l->prim;
-
+//opção 1 editar----------------------------------------------------------------------------
     if (opc == 1) {
-    char nome[40];
-    int cont=1, ret;
+    int comp;
+    char editar = NULL;
+    p = l->prim;
+
         printf("\nInforme o nome do contato para editar: ");
         getchar();
         scanf("%[^\n]", &nome);
         getchar();
-
     do {
-        ret = strncmp(p->nome, nome, 7);
-        if(ret == 0){
-        printf("\nInforme o nome novo: ");
-        getchar();
-        scanf("%[^\n]", p->nome);
-        getchar();
-
-        printf("\nInforme o email novo: ");
-        scanf("%[^\n]", p->email);
-        getchar();
-
-        printf("\nInforme o telefone novo: ");
-        scanf("%[^\n]", p->telefone);
-        getchar();
-
-        cont=0;
+        comp = strcmp(p->nome, nome);
+            if(comp == 0){
+            editCont(p);
         }
         else
         p=p->prox;
-    }while(cont != 0 && p != NULL);
-        if(cont == 1)
-        printf("\n\nNome nao encontrado!\n\n");
+    }while(comp != 0 && p != NULL);
 
+        if(comp != 0)
+        printf("\n\nNome nao encontrado!\n\n");
     }
 
+//opção 2 excluir---------------------------------------------------------------------------
     else if (opc == 2) {
-        char nome[40];
-        int cont=1, ret;
         ListaNo* ant = NULL;
+        p = l->prim;
 
         printf("\nInforme o nome do contato para excluir: ");
         getchar();
         scanf("%[^\n]", &nome);
         getchar();
 
-    while(p != NULL && ret != 0){
-        ret = strncmp(p->nome, nome, 7);
+    while(p != NULL && strcmp(p->nome, nome) != 0){
         ant = p;
         p = p->prox;
     }
 
-            if(p != NULL){
+        if(p == NULL)
+            printf("\n\nNome nao encontrado!\n\n");
+
+        else{
                 if(ant == NULL) {
                     l->prim = p->prox;
                 }
@@ -158,31 +200,32 @@ void editRemov (Lista* l){
                     ant->prox = p->prox;
                 }
                 free(p);
+                printf("\n\nContato excluido!\n");
             }
-    }
+        }
 
     else
     printf("\nOpcao invalida!\n");
 }
 
-int menu () {
+
+void menu (Lista *l) {
     int opt;
+    printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+    printf("* * * * * * * * * * * * * * * * * *  AGENDA ELETRONICA  * * * * * * * * * * * * * * *\n");
+    printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+    do{
 
-	printf("\nEscolha a opcao\n");
-	printf("0. Sair\n");
-	printf("1. Inserir contato\n");
-	printf("2. Listar contatos\n");
-	printf("3. Buscar e mostrar contato\n");
-	printf("4. Editar e remover contato\n");
-
-	printf("Opcao: ");
+    printf("\n                                * * * * * * * * * * * * * * * * *\n");
+	printf("                                *  ESCOLHA A OPCAO              *\n");
+	printf("                                *  0. SAIR                      *\n");
+	printf("                                *  1. INSERIR CONTATO           *\n");
+	printf("                                *  2. LISTAR CONTATOS           *\n");
+	printf("                                *  3. BUSCAR E MOSTRAR CONTATO  *\n");
+	printf("                                *  4. EDITAR E REMOVER CONTATO  *\n");
+	printf("                                      Opcao: ");
 	scanf("%d", &opt);
 
-    return opt;
-}
-
-
-void opcao(Lista *l, int opt) {
 	switch(opt){
 		case 0:
             liberaAgenda(l);
@@ -206,19 +249,14 @@ void opcao(Lista *l, int opt) {
 
 		default:
 			printf("Comando invalido\n\n");
-	}
+        }
+	}while (opt != 0);
 }
 
 int main () {
     Lista* l = criaLista();
-    int opt;
 
-
-    do{
-    opt = menu ();
-    opcao (l, opt);
-    }while (opt != 0);
-
+    menu (l);
 
     return 0;
 }
