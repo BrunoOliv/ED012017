@@ -1,3 +1,6 @@
+/*Alunos: Bruno Oliveira da Silva  16/0003580
+          Matheus
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,6 +45,9 @@ void liberaAgenda(Lista *l){
 //opção 1 do menu()
 void insereContato (Lista* l) {
     ListaNo* novo = (ListaNo*) malloc (sizeof(ListaNo));
+    ListaNo* anterior;
+    ListaNo* atual;
+
 
     printf("\nInforme o nome do novo contato: ");
     getchar();
@@ -56,8 +62,25 @@ void insereContato (Lista* l) {
     scanf("%[^\n]", novo->telefone);
     getchar();
 
-    novo->prox = l->prim;
-    l->prim = novo;
+    atual = l->prim;
+    anterior = NULL;
+
+    if(atual == NULL){
+        novo->prox = NULL;
+        l->prim = novo;
+    }
+    else{
+        while(atual != NULL && strcmp(atual->nome, novo->nome) < 0){
+            anterior = atual;
+            atual = atual->prox;
+        }
+        novo->prox = atual;
+
+        if(anterior == NULL)
+            l->prim = novo;
+        else
+            anterior->prox = novo;
+    }
 }
 
 //opção 2 do menu()
@@ -208,9 +231,9 @@ void editRemov (Lista* l){
     printf("\nOpcao invalida!\n");
 }
 
-
 void menu (Lista *l) {
     int opt;
+    system("color 03");
     printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
     printf("* * * * * * * * * * * * * * * * * *  AGENDA ELETRONICA  * * * * * * * * * * * * * * *\n");
     printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
