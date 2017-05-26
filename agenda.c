@@ -1,5 +1,5 @@
 /*Alunos: Bruno Oliveira da Silva  16/0003580
-          Matheus
+          Mateus Rocha Da Silva    16/0015031
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,7 +86,8 @@ void insereContato (Lista* l) {
 //opção 2 do menu()
 void imprimeContatos (Lista* l) {
     printf("\n\nNOME(s)                         EMAIL(s)                        TELEFONE(s)\n\n");
-    for (ListaNo* p=l->prim; p!=NULL; p=p->prox)
+    ListaNo* p;
+    for (p=l->prim; p!=NULL; p=p->prox)
     printf("%s                  %s                  %s\n", p->nome, p->email, p->telefone);
 }
 
@@ -96,7 +97,7 @@ void busImp (Lista* l) {
     int cont=1, ret;
     printf("\nInforme o nome: ");
     getchar();
-    scanf("%[^\n]", &nome);
+    scanf("%[^\n]", nome);
     getchar();
 
     ListaNo* p = l->prim;
@@ -125,7 +126,7 @@ void verif (char *editar) {
 
 //função para editar contato(nome, email e telefone) - usada por editRemov()
 void editCont (ListaNo* p) {
-    char editar = NULL;
+    char editar = 0;
 
 //edNome-------------------------------------------------------------------
         printf("\nEditar o nome (S/N): ");
@@ -177,12 +178,12 @@ void editRemov (Lista* l){
 //opção 1 editar----------------------------------------------------------------------------
     if (opc == 1) {
     int comp;
-    char editar = NULL;
+    char editar = 0;
     p = l->prim;
 
         printf("\nInforme o nome do contato para editar: ");
         getchar();
-        scanf("%[^\n]", &nome);
+        scanf("%[^\n]", nome);
         getchar();
     do {
         comp = strcmp(p->nome, nome);
@@ -204,7 +205,7 @@ void editRemov (Lista* l){
 
         printf("\nInforme o nome do contato para excluir: ");
         getchar();
-        scanf("%[^\n]", &nome);
+        scanf("%[^\n]", nome);
         getchar();
 
     while(p != NULL && strcmp(p->nome, nome) != 0){
