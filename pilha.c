@@ -52,14 +52,24 @@ int main () {
     else{
         push(&pilha1, 1);
         push(&pilha1, 2);
+        push(&pilha1, 3);
+        push(&pilha1, 4);
+        push(&pilha1, 5);
+        push(&pilha1, 6);
+        push(&pilha1, 7);
+        push(&pilha1, 8);
+        push(&pilha1, 9);
+        push(&pilha1, 10);
     }
 
     if(verifVazia(&pilha1) == 1)
         printf("\nPILHA VAZIA! \n");
 
     else {
+      do{
         valorAux = pop (&pilha1);
         printf("\nDesempilhado: %.1f", valorAux);
+        } while(pilha1.topo != -1);
     }
 
     free(pilha1.tElem);
